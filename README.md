@@ -2,6 +2,6 @@
 
 A new Flutter project.
 
-[Screnshoot Hello Word](image/01.png.png);
+[Screnshoot Hello Word](image/01.png);
 
 
