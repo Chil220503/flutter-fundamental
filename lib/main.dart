@@ -1,149 +1,111 @@
-import 'package:apk/basic_widget/loading_cupertino.dart';
 import 'package:flutter/material.dart';
+import 'basic_widget/loading_cupertino.dart';
 import 'basic_widget/text_widget.dart';
 import 'basic_widget/image_widget.dart';
-import 'basic_widget/loading_cupertino.dart';
 import 'basic_widget/floating_action_button.dart';
 import 'basic_widget/select_widget.dart';
-import 'dart:async';
-void main() => runApp(const MyApp());
+import 'basic_widget/date_and_time_pickers.dart';
+import 'basic_widget/scaffold_widget.dart';
+import 'basic_widget/selection_widget.dart';
+import 'basic_widget/Login_Screan.dart';
+
+void main() {
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Contoh Date Picker',
-      home: MyHomePage(title: 'Contoh Date Picker'),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Project Chillll',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      home: const LoginScreen(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  // Variable/State untuk mengambil tanggal
-  DateTime selectedDate = DateTime.now();
-
-  //  Initial SelectDate FLutter
-  Future<void> _selectDate(BuildContext context) async {
-    // Initial DateTime FIinal Picked
-    final DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime(2015, 8),
-        lastDate: DateTime(2101));
-    if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-      });
-    }
-  }
+class MyHomePage extends StatelessWidget {
+  const MyHomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
+      appBar: AppBar(title: const Text("Chill -_-")),
+      body: ListView(
+        padding: const EdgeInsets.all(16.0),
+        children: [
+          _buildListTile(
+            context,
+            title: "Cupertino Button & Loading",
+            icon: Icons.apple,
+            widget: const LoadingCupertinoWidget(),
+          ),
+          _buildListTile(
+            context,
+            title: "Floating Action Button",
+            icon: Icons.add_circle,
+            widget: const FloatingActionButtonWidget(),
+          ),
+           _buildListTile(
+            context,
+            title: "Text Widget",
+            icon: Icons.add_circle,
+            widget: const MyTextWidget(),
+          ),
+          _buildListTile(
+            context,
+            title: "ImageWidget",
+            icon: Icons.image,
+            widget: const MyImageWidget(),
+          ),
+          _buildListTile(
+            context,
+            title: "Scaffold Widget",
+            icon: Icons.dashboard,
+            widget: const ScaffoldWidget(),
+          ),
+          _buildListTile(
+            context,
+            title: "Dialog Widget",
+            icon: Icons.message,
+            widget: const DialogWidget(),
+          ),
+          _buildListTile(
+            context,
+            title: "Text Field Widget",
+            icon: Icons.text_fields,
+            widget: const TextFieldWidget(),
+          ),
+          _buildListTile(
+            context,
+            title: "Date & Time Picker",
+            icon: Icons.date_range,
+            widget: const DateTimePickerWidget(),
+          ),
+        ],
       ),
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Text("${selectedDate.toLocal()}".split(' ')[0]),
-            const SizedBox(
-              height: 20.0,
-            ),
-            ElevatedButton(
-              onPressed: () => {
-                _selectDate(context),
-                // ignore: avoid_print
-                print(selectedDate.day + selectedDate.month + selectedDate.year)
-              },
-              child: const Text('Pilih Tanggal'),
-            ),
-          ],
+    );
+  }
+
+  Widget _buildListTile(BuildContext context, {required String title, required IconData icon, required Widget widget}) {
+    return Card(
+      elevation: 4,
+      margin: const EdgeInsets.symmetric(vertical: 8),
+      child: ListTile(
+        leading: Icon(icon, color: Colors.blue),
+        title: Text(title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => widget),
         ),
       ),
     );
   }
 }
-
-// void main() {
-//   runApp(const MyApp());
-// }
-
-
-// class MyApp extends StatelessWidget {
-//   const MyApp({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       home: Scaffold(
-//         appBar: AppBar(title: const Text("Nama Saya :")),
-//         body: const TextField(
-//           obscureText: false,
-//           decoration: InputDecoration(
-//             border: OutlineInputBorder(),
-//             labelText: 'Maulana Virgiansyah',
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-
-// class MyLayout extends StatelessWidget {
-//   const MyLayout({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Padding(
-//       padding: const EdgeInsets.all(8.0),
-//       child: ElevatedButton(
-//         child: const Text('Show alert'),
-//         onPressed: () {
-//           showAlertDialog(context);
-//         },
-//       ),
-//     );
-//   }
-// }
-
-// showAlertDialog(BuildContext context) {
-//   // set up the button
-//   Widget okButton = TextButton(
-//     child: const Text("OK"),
-//     onPressed: () {
-//       Navigator.pop(context);
-//     },
-//   );
-
-//   // set up the AlertDialog
-//   AlertDialog alert = AlertDialog(
-//     title: const Text("My title"),
-//     content: const Text("This is my message."),
-//     actions: [
-//       okButton,
-//     ],
-//   );
-
-//   // show the dialog
-//   showDialog(
-//     context: context,
-//     builder: (BuildContext context) {
-//       return alert;
-//     },
-//   );
-// }
-
